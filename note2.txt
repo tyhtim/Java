@@ -1,0 +1,57 @@
+public class inherit {
+		
+	public static void main(String[] args) {
+
+		Parent p = new Son();
+		p.test();
+		System.out.println("------------------------------------------");
+		Son s = new Son();
+		s.test();
+	}
+}
+
+class Parent {
+
+	static {
+		System.out.println("Parent->static");
+	}
+	Parent() {
+		System.out.println("parent");
+	}
+		
+	void test() {
+		System.out.println("parent->test");
+	}
+}
+
+class Son extends Parent {
+	static {
+
+		System.out.println("Son->static");
+	}
+
+	Son() {
+		System.out.println("son");
+	}
+		
+	void test() {
+		System.out.println("son->test");
+	}
+}
+------------------------------------------------------
+输出结果为：
+Parent->static
+Son->static
+parent
+son
+son->test
+------------------------------------------
+parent
+son
+son->test
+分析：
+1 类中的静态对象先于static{}执行
+2 static{}中的代码是在构建类对象之前执行的
+3 构造子类的时候是按照先父后子的顺序执行的
+4 如果在子的构造函数中并没有使用显式的调用父类的构造函数（使用super），则执行无参构造函数。
+5 如果使用this(),则会先调用this(),再调用下面的代码(此时父类别的默认构造函数不再执行,而会根据执行this()执行相应的父构造函数)
